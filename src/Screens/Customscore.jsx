@@ -1,0 +1,22 @@
+export default  Customscore=[
+    {
+        id:1,
+        level:'demo',
+        score:89
+    },
+    {
+        id:2,
+        level:'finish',
+        score:114
+    },
+    {
+        id:3,
+        level:'find',
+        score:71
+    },
+    {
+        id:4,
+        level:'hard',
+        score:0
+    }
+]
