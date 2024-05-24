@@ -4,7 +4,7 @@ import {
   responsiveFontSize,
   responsiveHeight,
 } from 'react-native-responsive-dimensions';
-const Splash = ({navigation}: {navigation: any}) => {
+const Splash = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate('main');

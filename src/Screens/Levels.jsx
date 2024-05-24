@@ -18,24 +18,26 @@ import {
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import sqlite from 'react-native-sqlite-storage';
-function Levels({navigation}: {navigation: any}) {
-  const Levels:any = [];
+
+
+function Levels({navigation}) {
+  const Levels= [];
     useEffect(() => {
       getAllData()
     }, [])
     async function getAllData() {
       let db = await sqlite.openDatabase({name: 'demo.db'});
-      db.transaction(function (t:any) {
+      db.transaction(function (t) {
       t.executeSql(
       'select * from Gamelevels',
       [],
-      (tx:any, resultSet:any) => {
+      (tx, resultSet) => {
       for (let i = 0; i < resultSet.rows.length; i++) {
         Levels.push(resultSet.rows.item(i));
       }
       console.log(Levels)
     },
-      (e:any) => {
+      (e) => {
       console.log(JSON.stringify(e));
       },
       );
@@ -79,7 +81,7 @@ function Levels({navigation}: {navigation: any}) {
                         style={styles.stars}
                       />
                     )}
-                    {item.score >= 260 ? (
+                    {item.score >= 315 ? (
                       <Image
                         source={require('../assets/icons/star.png')}
                         style={styles.stars}
@@ -90,7 +92,7 @@ function Levels({navigation}: {navigation: any}) {
                         style={styles.stars}
                       />
                     )}
-                    {item.score >= 365 ? (
+                    {item.score >= 425 ? (
                       <Image
                         source={require('../assets/icons/star.png')}
                         style={styles.stars}
@@ -102,11 +104,17 @@ function Levels({navigation}: {navigation: any}) {
                       />
                     )}
                      </View>
+                     {item.score>0 || item.Status=='unlock' ?
                      <Pressable style={styles.p2} onPress={()=>navigation.navigate('gamescreen',{
-                       l_id:item.l_id
-                     })}>
+                      l_id:item.l_id
+                    })}>
                     <Text style={styles.t3}>{item.l_name}</Text>
-                     </Pressable>
+                    </Pressable>:
+                    <Pressable style={styles.p2}>
+                    <Text style={styles.t3}>{item.l_name}</Text>
+                    </Pressable>
+                    }
+                     
                  </View>
               )}
             />

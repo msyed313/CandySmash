@@ -6,13 +6,10 @@ interface tileProps {
   scale: Animated.Value
   key: number
   img: number
-  
 }
 
 const Tile = (props: tileProps) => {
-  
-  return <Animated.Image  source={props.img} style={[styles.tile, {transform: [{translateX: props.location.x}, {translateY: props.location.y}, {scale: props.scale}]}]} />
-  
+  return <Animated.Image source={props.img} style={[styles.tile, {transform: [{translateX: props.location.x}, {translateY: props.location.y}, {scale: props.scale}]}]} />
 }
 
 let Window = Dimensions.get('window')
@@ -21,7 +18,7 @@ let TILE_WIDTH = windowSpan / 6
 
 let styles = StyleSheet.create({
   tile: {
-    width: 40,
+    width: 50,
     height:50,
     position: 'absolute',
   },

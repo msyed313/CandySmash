@@ -17,25 +17,25 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-function Customlevels({navigation}: {navigation: any}) {
-  const Levels:any = [];
+function Customlevels({navigation}) {
+  const Levels = [];
   useEffect(() => {
     getcustomlevel()
   }, [])
   async function getcustomlevel() {
     let db = await sqlite.openDatabase({name: 'demo.db'});
-    db.transaction(function (t:any) {
+    db.transaction(function (t) {
     t.executeSql(
     'select * from Customlevel',
     [],
-    (tx:any, resultSet:any) => {
+    (tx, resultSet) => {
     for (let i = 0; i < resultSet.rows.length; i++) {
       Levels.push(resultSet.rows.item(i));
     }
     console.log(Levels)
     //alert('get All Data');
     },
-    (e:any) => {
+    (e) => {
     console.log(JSON.stringify(e));
     },
     );

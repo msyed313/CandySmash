@@ -1,0 +1,20 @@
+export const RoomData=[
+    {
+        "Id":1,
+        "Name":"Islamabad",
+        "image":require('../assets/rooms/islamabad.jpg'),
+        "name":"islamabad"
+    },
+    {
+        "Id":2,
+        "Name":"Lahore",
+        "image":require('../assets/rooms/lahore.jpeg'),
+        "name":"lahore"
+    },
+    {
+        "Id":3,
+        "Name":"Peshawar",
+        "image":require('../assets/rooms/peshawar.jpeg'),
+        "name":"peshawar"
+    }
+]

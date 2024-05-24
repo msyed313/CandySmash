@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BackHandler,
   ImageBackground,
@@ -14,7 +14,28 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-function Main({navigation}: {navigation: any}) {
+import AsyncStorage from '@react-native-async-storage/async-storage';
+function Main({navigation}) {
+    const[login,setLogin]=useState(false)
+   
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('player');
+      if (value !== null) {
+        // We have data!!
+        setLogin(true)
+        //console.log(value);
+      }
+      
+    } catch (error) {
+      // Error retrieving data
+       
+    }
+  };
+  useEffect(()=>{
+    _retrieveData()
+  },[])
+
   return (
     <ImageBackground
       source={require('../assets/CloudsBackground.png')}
@@ -28,7 +49,7 @@ function Main({navigation}: {navigation: any}) {
         </Pressable>
         <Pressable
           style={styles.press}
-          onPress={() => navigation.navigate('login')}>
+          onPress={()=>{ {login ? navigation.navigate('players') : navigation.navigate('login') }  }}>
           <Text style={styles.t2}>Multi Player</Text>
         </Pressable>
         <Pressable style={styles.press} onPress={BackHandler.exitApp}>

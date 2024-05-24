@@ -11,13 +11,65 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-
-function Signup({navigation}: {navigation: any}) {
-  const [avatarSource, setAvatarSource] = useState(null);
+import { launchCamera,launchImageLibrary } from 'react-native-image-picker';
+import Api from './Api';
+function Signup({navigation}) {
+  const [imagePath, setImagePath] = useState(null);
   const [passView, setPassView] = useState(false);
   const [selectedCity, setSelectedCity] = useState('select city');
   const [modalVisible, setModalVisible] = useState(false);
   const city = ['Islamabad', 'Peshawar', 'Lahore', 'Quetta'];
+  const [imgData, setImageData] = useState('');
+  const [pname, setPname] = useState('');
+  const [password, setPassword] = useState('');
+  const[email,setEmail]=useState('')
+  const [error,setError]=useState('');
+  const getImageGallery = () => {
+     let options = { 'mediaType': 'photo' };
+    launchImageLibrary(options, response => {
+    setImagePath(response.assets[0].uri);
+    setImageData({
+    'uri': response.assets[0].uri,
+    });
+                
+    }); 
+    console.log(imagePath);
+  }
+   const signUp=async ()=> {
+    let formData = new FormData();
+          formData.append('Pname', pname);
+          formData.append('Password',password);
+          formData.append('Email',email);
+          formData.append('City',selectedCity);
+         // formData.append('ImagePath',imagePath)
+    try {
+      const response = await fetch(`${Api}/Player/SignUp`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data', // Make sure to set the correct content type
+        },
+        body:formData, // formData should contain the data to be sent
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json(); // Parsing error response
+        setError(errorData)
+        console.log(errorData);
+        // Handle error as needed
+      } else {
+        const responseData = await response.json(); // Parsing success response
+        console.log('Success:', responseData);
+        setEmail(''), setImageData(''),setError(''),setPassword(''),setPname(''),setImagePath(''),setSelectedCity('select city')
+        // Handle success as needed
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle network errors or other exceptions
+    }
+  }
+    
+
   return (
     <ImageBackground
       source={require('../assets/CloudsBackground.png')}
@@ -27,27 +79,32 @@ function Signup({navigation}: {navigation: any}) {
       <View style={styles.v1}>
         <Text style={styles.t1}>Create new Account</Text>
         <View style={styles.imgview}>
-          {avatarSource ? (
-            <Image source={avatarSource} style={styles.img} />
+          {imagePath ? (
+            <Image source={{uri: imagePath}} style={styles.img} />
           ) : (
             <Image
               source={require('../assets/icons/user.png')}
               style={styles.img}
             />
           )}
-          <Pressable style={styles.btn}>
+          <Pressable style={styles.btn} onPress={getImageGallery} >
             <Text style={{fontSize: 20, color: 'black', fontWeight: '500'}}>
               Select Image
             </Text>
           </Pressable>
         </View>
-        <TextInput placeholder="uname" style={styles.input} />
-        <TextInput placeholder="email" style={styles.input} />
+        <TextInput placeholder="uname" style={styles.input} onChangeText={setPname} value={pname} />
+        {error ? <Text>{error.Pname}</Text>:null}
+        <TextInput placeholder="email" style={styles.input} onChangeText={setEmail} value={email}  />
+        {error ? <Text>{error.Email}</Text>:null}
         <TextInput
           placeholder="password"
           style={[styles.input, {position: 'relative'}]}
           secureTextEntry={passView ? false : true}
+          onChangeText={setPassword}
+          value={password} 
         />
+        {error ? <Text>{error.Password}</Text>:null}
         {passView ? (
           <Pressable onPress={() => setPassView(false)}>
             <Image
@@ -88,7 +145,7 @@ function Signup({navigation}: {navigation: any}) {
             </View>
           </View>
         </Modal>
-        <Pressable style={styles.press}>
+        <Pressable style={styles.press} onPress={signUp}>
           <Text style={[styles.t1, {color: 'white'}]}>Signup</Text>
         </Pressable>
         <Pressable>
@@ -134,7 +191,7 @@ const styles = StyleSheet.create({
     width: '30%',
     height: 50,
     resizeMode: 'contain',
-    borderRadius: 75,
+    borderRadius:50
   },
   btn: {
     borderWidth: 1,

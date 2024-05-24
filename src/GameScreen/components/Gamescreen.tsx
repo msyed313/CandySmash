@@ -156,8 +156,33 @@ const Secondlevel = ({navigation,route}:{navigation:any,route:any}) => {
     console.log(JSON.stringify(e));
     },
     );
+    t.executeSql(
+      `update Gamelevels set Status=? where l_id=${n_id}`,
+        ['unlock'],
+      (tx:any, resultSet:any) => {
+      console.log(JSON.stringify(resultSet));
+      },
+      (e:any)=> {
+      console.log(JSON.stringify(e));
+      },
+      );
     });
     }
+    async function updateStatus() {
+      let db = await sqlite.openDatabase({name: 'demo.db'});
+      db.transaction(function (t:any) {
+      t.executeSql(
+      `update Gamelevels set Status=? where l_id=${n_id}`,
+      ['unlock'],
+      (tx:any, resultSet:any) => {
+      console.log(JSON.stringify(resultSet));
+      },
+      (e:any)=> {
+      console.log(JSON.stringify(e));
+      },
+      );
+      });
+      }
   useEffect(() => {
     getData();
     
@@ -172,11 +197,7 @@ const Secondlevel = ({navigation,route}:{navigation:any,route:any}) => {
       setTargetModal(true)
     }
     else{
-      if(tname == 'BLUE_BEAN'){
-        setImagePath(require('../assets/BlueJellyBean.png'))
-      }
-      console.log(imagePath)
-    ;(async function () {
+      ;(async function () {
       await sleep(500)
       animateValuesToLocations()
       await sleep(500)
@@ -443,7 +464,6 @@ const Secondlevel = ({navigation,route}:{navigation:any,route:any}) => {
   return (
     <ImageBackground source={justClouds} style={styles.backGroundImage}>
     <SafeAreaView style={styles.scoreBoard}>
-     {/* <Text>{JSON.stringify(l_id)}</Text>*/}
     <View style={styles.scoreElement}>
           <Text style={{fontSize:responsiveFontSize(2.5)}}>Score</Text>
           <Text style={{fontSize:responsiveFontSize(2.2)}}>{score}</Text>
@@ -491,8 +511,8 @@ const Secondlevel = ({navigation,route}:{navigation:any,route:any}) => {
               <View style={styles.modalView}>
               <Text style={styles.modalText}>Your Score:{score}</Text>
               <Text style={styles.modalText}>Level completed</Text>
-                <Pressable onPress={() => [updateData(),setTargetModal(false),navigation.navigate('gamescreen',{l_id:n_id}) ]} style={styles.press}>
-                  <Text style={styles.t}>Next</Text>  
+                <Pressable onPress={() => [updateData(),setTargetModal(false),navigation.navigate('levels') ]} style={styles.press}>
+                  <Text style={styles.t}>Done</Text>  
              </Pressable>
               </View>
             </View>

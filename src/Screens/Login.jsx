@@ -10,20 +10,59 @@ import {
   Pressable,
   Image,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Api } from './Api';
+import axios from 'axios';
 
-function Login({navigation}: {navigation: any}) {
+function Login({navigation}) {
   const [passView, setPassView] = useState(false);
+  const [pname, setPname] = useState('');
+  const [password, setPassword] = useState('');
+  const [error,setError]=useState('');
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${Api}/Player/Login?pname=${pname}&password=${password}`);
+      const data = await response.json();
+     // const pid=data.Pid;
+      if (response.ok) {
+        // Save player information in async storage
+         try {
+          await AsyncStorage.setItem('player', JSON.stringify(data));
+          navigation.navigate('players')
+          //console.log('stored with id:',data.Pid);
+           } catch (e) {
+          console.log(e)
+         } 
+      } else {
+        console.log('Error', data);
+        setError(data)
+        console.log(error);
+        
+      }
+      
+    } catch (error) {
+      console.log('Error', 'An error occurred while logging in.');
+      console.error('Login Error:', error);
+    }
+  };
   return (
     <ImageBackground
       source={require('../assets/CloudsBackground.png')}
       style={styles.ImageBackground}>
       <StatusBar backgroundColor="skyblue" barStyle="dark-content" />
-
+      
       <View style={styles.v1}>
         <Text style={styles.t1}>Login to your account</Text>
-        <TextInput placeholder="uname" style={styles.input} />
+        {error ? <Text style={{fontSize:15,color:'black',textAlign:'center'}}>{error}</Text> : null}
+        <TextInput
+        placeholder="uname"
+        onChangeText={setPname}
+        value={pname}
+        style={styles.input} />
         <TextInput
           placeholder="password"
+          onChangeText={setPassword}
+          value={password}
           style={[styles.input, {position: 'relative'}]}
           secureTextEntry={passView ? false : true}
         />
@@ -42,7 +81,7 @@ function Login({navigation}: {navigation: any}) {
             />
           </Pressable>
         )}
-        <Pressable style={styles.press}>
+        <Pressable style={styles.press} onPress={handleLogin} >
           <Text style={styles.t2}>login</Text>
         </Pressable>
         <Pressable onPress={() => navigation.navigate('signup')}>

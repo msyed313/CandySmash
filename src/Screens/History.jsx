@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
-import Historydata from './Historydata'
+import Historydata from './Rooms'
 function History() {
   return (
     <ImageBackground source={require('../assets/CloudsBackground.png')}
@@ -15,20 +15,14 @@ function History() {
                         <Text>Status</Text>
                         <Text>Date</Text>
                      </View>
-                    
-                        {
-                            Historydata.map((item,index)=>{
-                                return(
-                                    <View style={styles.v4} key={index}>
-                                    <Text>{index+1}</Text>
-                                    <Text>{item.name}</Text>
-                                    <Text>{item.score}</Text>
-                                    <Text>{item.status}</Text>
-                                    <Text>{item.date}</Text>
-                                    </View>
-                                )
-                            })
-                        }
+                    <View style={styles.v4} >
+                        <Text>1</Text>
+                        <Text>Afraiz</Text>
+                        <Text>98</Text>
+                        <Text>Win</Text>
+                        <Text>21/5/2024</Text>
+                    </View>
+                                
                      
                     
                 </View>
