@@ -24,7 +24,7 @@ const Sqlite = () => {
     let db = sqlite.openDatabase({ name: 'demo.db' });
       db.transaction(tx => {
       tx.executeSql(
-        'DELETE FROM TargetCandy',
+        'DELETE FROM Customlevel',
         [],
         (tx, results) => {
           console.log('Results', results.rowsAffected);

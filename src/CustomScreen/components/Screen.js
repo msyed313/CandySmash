@@ -106,13 +106,13 @@ const Screen = ({ navigation, route }) => {
                 C_name_BEAN = {uri: item.C_candy_path};
                 break;
               case 'C2':
-                C_name_BEAN = { uri: item.C_candy_path };
+                C_name_BEAN = {uri: item.C_candy_path};
                 break;
               case 'C3':
-                C_name_BEAN = { uri: item.C_candy_path };
+                C_name_BEAN = {uri: item.C_candy_path};
                 break;
               default:
-                C_name_BEAN = require('../assets/PurpleJellyBean.png');
+                C_name_BEAN = {uri: item.C_candy_path};
                 break;
             }
 

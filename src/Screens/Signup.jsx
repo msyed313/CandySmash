@@ -31,43 +31,40 @@ function Signup({navigation}) {
     setImageData({
     'uri': response.assets[0].uri,
     });
-                
-    }); 
-    console.log(imagePath);
+     }); 
+    console.log(imgData);
   }
-   const signUp=async ()=> {
-    let formData = new FormData();
-          formData.append('Pname', pname);
-          formData.append('Password',password);
-          formData.append('Email',email);
-          formData.append('City',selectedCity);
-         // formData.append('ImagePath',imagePath)
-    try {
-      const response = await fetch(`${Api}/Player/SignUp`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data', // Make sure to set the correct content type
-        },
-        body:formData, // formData should contain the data to be sent
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json(); // Parsing error response
-        setError(errorData)
-        console.log(errorData);
-        // Handle error as needed
-      } else {
-        const responseData = await response.json(); // Parsing success response
-        console.log('Success:', responseData);
-        setEmail(''), setImageData(''),setError(''),setPassword(''),setPname(''),setImagePath(''),setSelectedCity('select city')
-        // Handle success as needed
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle network errors or other exceptions
-    }
-  }
+  const formdata=new FormData()
+  formdata.append('Pname',pname)
+  formdata.append('Email',email)
+  formdata.append('Password',password)
+  formdata.append('City',selectedCity)
+
+   const signUp=async ()=>{
+        try {
+          const response=await fetch(`http://172.16.215.26/CandySmash/api/Player/SignUp`,{
+            method:'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type':'multipart/form-data'
+            },
+            body:formdata
+          });
+          const data=await response.json()
+          console.log(formdata);
+          if(response.ok){
+            console.log("Success: ",data);
+            setEmail(''), setImageData(''),setError(''),setPassword(''),
+            setPname(''),setImagePath(''),setSelectedCity('select city')
+          }
+          else{
+            console.log("error: ",data);
+            setError(data)
+          }
+        } catch (error) {
+            console.log('Error: ',error);
+        }  
+   }
     
 
   return (

@@ -53,7 +53,7 @@ function Login({navigation}) {
       
       <View style={styles.v1}>
         <Text style={styles.t1}>Login to your account</Text>
-        {error ? <Text style={{fontSize:15,color:'black',textAlign:'center'}}>{error}</Text> : null}
+        {error ? <Text style={{fontSize:15,color:'red',textAlign:'center'}}>{error}</Text> : null}
         <TextInput
         placeholder="uname"
         onChangeText={setPname}

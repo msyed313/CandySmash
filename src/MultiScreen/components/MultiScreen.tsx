@@ -56,6 +56,8 @@ const MultiScreen = ({navigation,route}:{navigation:any,route:any}) => {
    },1000)
   },[gameDuration])
   useEffect(() => {
+    console.log(route.params);
+    
     if(gameDuration==0){
       setTargetModal(true)
     }
